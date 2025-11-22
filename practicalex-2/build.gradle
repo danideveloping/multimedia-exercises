@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'edu.multimedia'
+version = '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Apache Lucene Core
+    implementation 'org.apache.lucene:lucene-core:9.9.0'
+    
+    // Apache Lucene Query Parser
+    implementation 'org.apache.lucene:lucene-queryparser:9.9.0'
+    
+    // Apache Lucene Analysis Common
+    implementation 'org.apache.lucene:lucene-analysis-common:9.9.0'
+    
+    // Apache Lucene Suggest (for spell checking)
+    implementation 'org.apache.lucene:lucene-suggest:9.9.0'
+    
+    // JSON Processing
+    implementation 'com.google.code.gson:gson:2.10.1'
+    
+    // SLF4J API
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    
+    // SLF4J Simple
+    implementation 'org.slf4j:slf4j-simple:1.7.36'
+}
+
+application {
+    mainClass = 'edu.multimedia.lucene.MovieSearchApp'
+}
+
+run {
+    standardInput = System.in
+    if (project.hasProperty('args')) {
+        args project.args.split(',')
+    }
+}
+
+task runWithArgs(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'edu.multimedia.lucene.MovieSearchApp'
+    standardInput = System.in
+    if (project.hasProperty('appArgs')) {
+        args appArgs.split(',')
+    }
+}
+
